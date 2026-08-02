@@ -1,0 +1,6 @@
+#gh-updater-app { font-family: Arial, sans-serif; }
+.gh-repo { border: 1px solid #eee; padding: 12px; margin-bottom: 8px; border-radius: 4px; }
+.gh-repo h3 { margin: 0 0 6px 0; }
+.gh-meta { color: #666; font-size: 13px; margin-bottom: 6px; }
+.gh-branch-list { margin-top:8px; }
+.gh-error { color: #900; }

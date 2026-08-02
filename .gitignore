@@ -1,0 +1,9 @@
+# Ignore node modules and build artifacts
+node_modules/
+dist/
+
+# WordPress
+wp-content/uploads/
+
+.idea/
+.vscode/
