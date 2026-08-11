@@ -1,0 +1,4 @@
+- Added secure settings page and token encryption
+- Webhook manager to create hooks on repos
+- Background event processor and polling cron
+- Activity feed and basic admin UI
