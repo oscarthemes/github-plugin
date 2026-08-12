@@ -16,11 +16,16 @@ define( 'GH_UPDATER_VERSION', '0.1.0' );
 define( 'GH_UPDATER_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'GH_UPDATER_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
-// Includes
+// Core includes (ensure all REST routes and initialization files are loaded)
 require_once GH_UPDATER_PLUGIN_DIR . 'includes/class-provider-interface.php';
 require_once GH_UPDATER_PLUGIN_DIR . 'includes/class-github-client.php';
 require_once GH_UPDATER_PLUGIN_DIR . 'includes/class-webhook-handler.php';
+require_once GH_UPDATER_PLUGIN_DIR . 'includes/class-settings.php';
+require_once GH_UPDATER_PLUGIN_DIR . 'includes/class-webhook-manager.php';
+require_once GH_UPDATER_PLUGIN_DIR . 'includes/class-event-processor.php';
 require_once GH_UPDATER_PLUGIN_DIR . 'includes/rest-routes.php';
+require_once GH_UPDATER_PLUGIN_DIR . 'includes/rest-extensions.php';
+require_once GH_UPDATER_PLUGIN_DIR . 'includes/init-setup.php';
 
 register_activation_hook( __FILE__, function() {
     require_once ABSPATH . 'wp-admin/includes/upgrade.php';
@@ -56,6 +61,22 @@ register_activation_hook( __FILE__, function() {
       KEY event_type (event_type)
     ) $charset_collate;";
     dbDelta( $sql2 );
+
+    // Create activity table on activation as well
+    $table3 = $wpdb->prefix . 'github_updater_activity';
+    $sql3 = "CREATE TABLE IF NOT EXISTS $table3 (
+      id bigint unsigned NOT NULL AUTO_INCREMENT,
+      event_type varchar(50) NOT NULL,
+      repo_full_name varchar(255) DEFAULT NULL,
+      actor varchar(255) DEFAULT NULL,
+      meta longtext NULL,
+      payload longtext NOT NULL,
+      created_at datetime DEFAULT CURRENT_TIMESTAMP,
+      PRIMARY KEY (id),
+      KEY repo_full_name (repo_full_name),
+      KEY event_type (event_type)
+    ) $charset_collate;";
+    dbDelta( $sql3 );
 });
 
 add_action( 'rest_api_init', function() {
