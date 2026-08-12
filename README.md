@@ -1,17 +1,16 @@
-Updated README with setup and usage instructions.
+# Minimal GitHub Updater
 
-## Quick start
-1. Install the plugin on your WordPress site and activate it.
-2. Define a secret key in your wp-config.php to encrypt tokens (recommended):
+This is a simplified, ready-to-use version of the GitHub Updater plugin.
 
-   define('GH_UPDATER_SECRET_KEY', 'pick-a-32-byte-random-string');
+Setup:
+1. Install and activate the plugin in WordPress.
+2. (Recommended) Add a 32-byte encryption key to wp-config.php:
+   define('GH_UPDATER_SECRET_KEY', 'your-32-byte-random-string');
+3. In WordPress admin go to GitHub Updater → Settings.
+4. Paste a Personal Access Token (PAT) with scopes: repo (or public_repo) and admin:repo_hook.
+5. Save and Test the token.
+6. In Repositories tab, create a webhook for a repo and Ping it to verify delivery.
 
-   If not set, the plugin will attempt to use AUTH_KEY as a fallback; otherwise the token will be stored unencrypted (not recommended).
-
-3. Open the GitHub Updater admin page (left menu: GitHub Updater).
-4. Paste a Personal Access Token (repo, admin:repo_hook scopes) and optionally a webhook secret.
-5. Click "Create webhook" for any repository to install a webhook pointing to your site.
-
-Notes
-- Webhook endpoint must be public and use HTTPS for GitHub to deliver events.
-- For local development, use ngrok or similar tunneling tools.
+Notes:
+- Webhooks require a public HTTPS endpoint. Use ngrok for local testing.
+- If you accidentally exposed a token, revoke it immediately on GitHub and create a new one.
